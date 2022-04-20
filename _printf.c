@@ -5,11 +5,14 @@ int _printf(const char *format, ...)
 	va_list list;
 	char *ptr;
 	char *ptr_tmp;
-	int j;
+	int j, count = 0;
 
 	formato formating[] = {
 		{"c", print_c},
 		{"s", print_s},
+	/*	{"%", print_p},*/
+		{"d", print_i},
+		{"i", print_i},
 		{NULL, NULL}
 	};
 	/*creando una copia de format para poder modificar valores*/
@@ -22,7 +25,7 @@ int _printf(const char *format, ...)
 
 	while (*(ptr) != '\0')
 	{
-		if (*(ptr) == '%')
+		if (*(ptr) == PORCENTAJE)
 		{
 			ptr++;
 			j = 0;
@@ -37,16 +40,14 @@ int _printf(const char *format, ...)
 				j++;
 			}
 			if (formating[j].op == NULL)
-			{
 				ptr--;
-			}
 		}
 		count += 1;
 		write(1, ptr, 1);
 		ptr++;
 	}
 
-
 	free(ptr_tmp);
+	va_end(list);
 	return (count);
 }
